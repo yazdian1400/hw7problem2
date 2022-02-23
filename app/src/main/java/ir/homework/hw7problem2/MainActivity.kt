@@ -2,25 +2,40 @@ package ir.homework.hw7problem2
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import ir.homework.hw7problem2.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding : ActivityMainBinding
+    val numOfQuestions = 10
     val questionList = mutableListOf<String>()
     val answerList = mutableListOf<Boolean>()
-    val userAnswerList = mutableListOf<UserAnswer>()
+    val userAnswerList = MutableList(numOfQuestions){UserAnswer.NOANSWER}
     val cheatList = mutableListOf<Boolean>()
-    var numOfQuestion = 1
+
+    var num = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setTitle("GeoQuiz")
-        setQuestionsAndAnswers()
-        binding.tvQuestion.text = questionList[numOfQuestion]
-        binding.btnPrev.isClickable = false
+        initialize()
+
+        binding.btnTrue.setOnClickListener{
+            userAnswerList[num] = UserAnswer.TRUE
+            binding.btnTrue.isEnabled = false
+            binding.btnFalse.isEnabled = false
+            messageAnswer(answerList[num])
+        }
+        binding.btnFalse.setOnClickListener{
+            userAnswerList[num] = UserAnswer.FALSE
+            binding.btnTrue.isEnabled = false
+            binding.btnFalse.isEnabled = false
+            messageAnswer(!answerList[num])
+        }
     }
 
     fun setQuestionsAndAnswers(){
@@ -32,6 +47,16 @@ class MainActivity : AppCompatActivity() {
     }
     fun stringToBoolean(str: String): Boolean{
         return str == "true"
+    }
+    fun initialize(){
+        setTitle("GeoQuiz")
+        setQuestionsAndAnswers()
+        binding.tvQuestion.text = questionList[num]
+        binding.btnPrev.isClickable = false
+    }
+    fun messageAnswer(boolean: Boolean){
+        if (boolean)    Toast.makeText(this, "Correct",Toast.LENGTH_LONG).show()
+        else    Toast.makeText(this, "Incorrect",Toast.LENGTH_LONG).show()
     }
 }
 
