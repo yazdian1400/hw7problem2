@@ -9,7 +9,7 @@ import ir.homework.hw7problem2.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding : ActivityMainBinding
-    val numOfQuestions = 10
+    val numOfQuestions = 3
     val questionList = mutableListOf<String>()
     val answerList = mutableListOf<Boolean>()
     val userAnswerList = MutableList(numOfQuestions){UserAnswer.NOANSWER}
@@ -36,6 +36,14 @@ class MainActivity : AppCompatActivity() {
             binding.btnFalse.isEnabled = false
             messageAnswer(!answerList[num])
         }
+        binding.btnNext.setOnClickListener{
+            num++
+            changePage(num)
+        }
+        binding.btnPrev.setOnClickListener{
+            num--
+            changePage(num)
+        }
     }
 
     fun setQuestionsAndAnswers(){
@@ -43,7 +51,8 @@ class MainActivity : AppCompatActivity() {
         answerList.add(stringToBoolean(getString(R.string.answer1)))
         questionList.add(getString(R.string.question2))
         answerList.add(stringToBoolean(getString(R.string.answer2)))
-
+        questionList.add(getString(R.string.question3))
+        answerList.add(stringToBoolean(getString(R.string.answer3)))
     }
     fun stringToBoolean(str: String): Boolean{
         return str == "true"
@@ -52,11 +61,19 @@ class MainActivity : AppCompatActivity() {
         setTitle("GeoQuiz")
         setQuestionsAndAnswers()
         binding.tvQuestion.text = questionList[num]
-        binding.btnPrev.isClickable = false
+        binding.btnPrev.isEnabled = false
     }
     fun messageAnswer(boolean: Boolean){
         if (boolean)    Toast.makeText(this, "Correct",Toast.LENGTH_LONG).show()
         else    Toast.makeText(this, "Incorrect",Toast.LENGTH_LONG).show()
+    }
+    fun changePage(num: Int){
+        binding.tvQuestion.text = questionList[num]
+        binding.btnPrev.isEnabled = num != 0
+        binding.btnNext.isEnabled = num != (numOfQuestions - 1)
+        binding.btnFalse.isEnabled = userAnswerList[num] == UserAnswer.NOANSWER
+        binding.btnTrue.isEnabled = userAnswerList[num] == UserAnswer.NOANSWER
+        binding.btnCheat.isEnabled = userAnswerList[num] == UserAnswer.NOANSWER
     }
 }
 
