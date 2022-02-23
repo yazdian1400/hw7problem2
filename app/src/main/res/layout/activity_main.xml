@@ -112,6 +112,7 @@
         android:layout_marginTop="158dp"
         android:layout_marginEnd="177dp"
         android:textSize="20sp"
+        android:textColor="@color/gray_A100"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
