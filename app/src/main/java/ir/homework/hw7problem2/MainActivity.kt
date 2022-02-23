@@ -1,8 +1,8 @@
 package ir.homework.hw7problem2
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import ir.homework.hw7problem2.databinding.ActivityMainBinding
 
@@ -38,11 +38,16 @@ class MainActivity : AppCompatActivity() {
         }
         binding.btnNext.setOnClickListener{
             num++
-            changePage(num)
+            changePage()
         }
         binding.btnPrev.setOnClickListener{
             num--
-            changePage(num)
+            changePage()
+        }
+        binding.btnCheat.setOnClickListener{
+            val intent = Intent(this, CheatActivity::class.java)
+            intent.putExtra("answer", answerList[num])
+            startActivity(intent)
         }
     }
 
@@ -67,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         if (boolean)    Toast.makeText(this, "Correct",Toast.LENGTH_LONG).show()
         else    Toast.makeText(this, "Incorrect",Toast.LENGTH_LONG).show()
     }
-    fun changePage(num: Int){
+    fun changePage() {
         binding.tvQuestion.text = questionList[num]
         binding.btnPrev.isEnabled = num != 0
         binding.btnNext.isEnabled = num != (numOfQuestions - 1)
