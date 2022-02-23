@@ -94,7 +94,7 @@
         android:paddingTop="8dp"
         android:paddingEnd="12dp"
         android:paddingBottom="8dp"
-        android:text="NEXT  &gt;"
+        android:text="NEXT  >"
         android:textColor="@color/gray_A100"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/btn_prev"

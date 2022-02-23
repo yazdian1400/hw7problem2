@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">hw7problem2</string>
+    <string name="question1">Birjand is the capital of North Khorasan.</string>
+    <string name="answer1">false</string>
+    <string name="question2">2 multiplied by 2 is 4.</string>
+    <string name="answer2">true</string>
+
 </resources>
