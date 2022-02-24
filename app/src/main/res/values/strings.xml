@@ -2,9 +2,11 @@
     <string name="app_name">hw7problem2</string>
     <string name="question1">Birjand is the capital of North Khorasan.</string>
     <string name="answer1">false</string>
-    <string name="question2">2 multiplied by 2 is 4.</string>
+    <string name="question2">Tehran is the capital of Iran.</string>
     <string name="answer2">true</string>
-    <string name="question3">2 2+2 = 5.</string>
-    <string name="answer3">false</string>
+    <string name="question3">There is no sea in Yazd.</string>
+    <string name="answer3">true</string>
+    <string name="question4">There is no sea in Yazd.</string>
+    <string name="answer4">true</string>
 
 </resources>

@@ -1,5 +1,6 @@
 package ir.homework.hw7problem2
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -15,8 +16,9 @@ class MainActivity : AppCompatActivity() {
     val questionList = mutableListOf<String>()
     val answerList = mutableListOf<Boolean>()
     val userAnswerList = MutableList(numOfQuestions){UserAnswer.NOANSWER}
-    val cheatList = mutableListOf<Boolean>()
+    val cheatList = MutableList(numOfQuestions){false}
     var num = 0     //÷
+    var hasCheated = false
 
 
 
@@ -27,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initialize()
+
 
         binding.btnTrue.setOnClickListener{
             userAnswerList[num] = UserAnswer.TRUE
@@ -59,7 +62,15 @@ class MainActivity : AppCompatActivity() {
         binding.btnCheat.setOnClickListener{
             val intent = Intent(this, CheatActivity::class.java)
             intent.putExtra("answer", answerList[num])
-            startActivity(intent)
+            startActivityForResult(intent, 101)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 101 && resultCode == Activity.RESULT_OK && data != null){
+            hasCheated = data.getBooleanExtra("hasCheated",false)
+            if (hasCheated == true) cheatList[num] = true
         }
     }
 
@@ -74,13 +85,17 @@ class MainActivity : AppCompatActivity() {
     fun stringToBoolean(str: String): Boolean{
         return str == "true"
     }
+    @RequiresApi(Build.VERSION_CODES.M)
     fun initialize(){
         setTitle("GeoQuiz")
         setQuestionsAndAnswers()
         changePage()
     }
     fun messageAnswer(boolean: Boolean){
-        if (boolean)    Toast.makeText(this, "Correct",Toast.LENGTH_LONG).show()
+        if (boolean){
+            Toast.makeText(this, "Correct",Toast.LENGTH_LONG).show()
+            if (cheatList[num] == true) Toast.makeText(this, "Cheating is Wrong.",Toast.LENGTH_LONG).show()
+        }
         else    Toast.makeText(this, "Incorrect",Toast.LENGTH_LONG).show()
     }
     @RequiresApi(Build.VERSION_CODES.M)
@@ -105,6 +120,8 @@ class MainActivity : AppCompatActivity() {
             binding.btnTrue.setBackgroundColor(getColor(R.color.pink_dark_A100))
             binding.btnCheat.setBackgroundColor(getColor(R.color.red_dark_A100))
         }
+        if ((userAnswerList[num] == UserAnswer.TRUE && answerList[num] == true || userAnswerList[num] == UserAnswer.FALSE && answerList[num] == false) && cheatList[num] == true)
+            Toast.makeText(this, "Cheating is wrong.",Toast.LENGTH_LONG).show()
     }
 }
 
