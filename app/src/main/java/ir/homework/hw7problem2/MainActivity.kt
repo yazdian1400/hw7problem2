@@ -12,7 +12,7 @@ import ir.homework.hw7problem2.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding : ActivityMainBinding
-    val numOfQuestions = 3
+    val numOfQuestions = 10
     val questionList = mutableListOf<String>()
     val answerList = mutableListOf<Boolean>()
     val userAnswerList = MutableList(numOfQuestions){UserAnswer.NOANSWER}
@@ -21,17 +21,21 @@ class MainActivity : AppCompatActivity() {
     var hasCheated = false
 
 
-
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         initialize()
 
+        onClickListeners()
+    }
 
-        binding.btnTrue.setOnClickListener{
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun onClickListeners() {
+        binding.btnTrue.setOnClickListener {
             userAnswerList[num] = UserAnswer.TRUE
             binding.btnTrue.isEnabled = false
             binding.btnTrue.setBackgroundColor(getColor(R.color.pink_dark_A100))
@@ -41,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             binding.btnCheat.setBackgroundColor(getColor(R.color.red_dark_A100))
             messageAnswer(answerList[num])
         }
-        binding.btnFalse.setOnClickListener{
+        binding.btnFalse.setOnClickListener {
             userAnswerList[num] = UserAnswer.FALSE
             binding.btnTrue.isEnabled = false
             binding.btnTrue.setBackgroundColor(getColor(R.color.pink_dark_A100))
@@ -51,21 +55,20 @@ class MainActivity : AppCompatActivity() {
             binding.btnCheat.setBackgroundColor(getColor(R.color.red_dark_A100))
             messageAnswer(!answerList[num])
         }
-        binding.btnNext.setOnClickListener{
+        binding.btnNext.setOnClickListener {
             num++
             changePage()
         }
-        binding.btnPrev.setOnClickListener{
+        binding.btnPrev.setOnClickListener {
             num--
             changePage()
         }
-        binding.btnCheat.setOnClickListener{
+        binding.btnCheat.setOnClickListener {
             val intent = Intent(this, CheatActivity::class.java)
             intent.putExtra("answer", answerList[num])
             startActivityForResult(intent, 101)
         }
     }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 101 && resultCode == Activity.RESULT_OK && data != null){
@@ -73,7 +76,6 @@ class MainActivity : AppCompatActivity() {
             if (hasCheated == true) cheatList[num] = true
         }
     }
-
     fun setQuestionsAndAnswers(){
         questionList.add(getString(R.string.question1))
         answerList.add(stringToBoolean(getString(R.string.answer1)))
@@ -81,6 +83,20 @@ class MainActivity : AppCompatActivity() {
         answerList.add(stringToBoolean(getString(R.string.answer2)))
         questionList.add(getString(R.string.question3))
         answerList.add(stringToBoolean(getString(R.string.answer3)))
+        questionList.add(getString(R.string.question4))
+        answerList.add(stringToBoolean(getString(R.string.answer4)))
+        questionList.add(getString(R.string.question5))
+        answerList.add(stringToBoolean(getString(R.string.answer5)))
+        questionList.add(getString(R.string.question6))
+        answerList.add(stringToBoolean(getString(R.string.answer6)))
+        questionList.add(getString(R.string.question7))
+        answerList.add(stringToBoolean(getString(R.string.answer7)))
+        questionList.add(getString(R.string.question8))
+        answerList.add(stringToBoolean(getString(R.string.answer8)))
+        questionList.add(getString(R.string.question9))
+        answerList.add(stringToBoolean(getString(R.string.answer9)))
+        questionList.add(getString(R.string.question10))
+        answerList.add(stringToBoolean(getString(R.string.answer10)))
     }
     fun stringToBoolean(str: String): Boolean{
         return str == "true"

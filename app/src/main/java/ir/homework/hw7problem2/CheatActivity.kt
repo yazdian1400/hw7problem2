@@ -26,7 +26,6 @@ class CheatActivity : AppCompatActivity() {
             binding.tvCheatAnswer.text = answer.toString()
             binding.btnShowAnswer.setBackgroundColor(getColor(R.color.green_dark_A100))
             hasCheated = true
-            Toast.makeText(this, "hasCheated" + hasCheated.toString(),Toast.LENGTH_LONG).show()
         }
     }
 
@@ -36,8 +35,6 @@ class CheatActivity : AppCompatActivity() {
                 val returnIntent = Intent()
                 returnIntent.putExtra("hasCheated", hasCheated)
                 setResult(Activity.RESULT_OK, returnIntent)
-                //intent.putExtra("hasCheated", hasCheated)
-                //startActivity(intent)
                 finish()
                 return true
             }

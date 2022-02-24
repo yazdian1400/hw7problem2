@@ -6,7 +6,19 @@
     <string name="answer2">true</string>
     <string name="question3">There is no sea in Yazd.</string>
     <string name="answer3">true</string>
-    <string name="question4">There is no sea in Yazd.</string>
-    <string name="answer4">true</string>
+    <string name="question4">Himalaya is in Iran.</string>
+    <string name="answer4">false</string>
+    <string name="question5">Persian Gulf is in Iran.</string>
+    <string name="answer5">true</string>
+    <string name="question6">Tehran and Qom are neighbours.</string>
+    <string name="answer6">true</string>
+    <string name="question7">There is enough water for many years.</string>
+    <string name="answer7">false</string>
+    <string name="question8">Shiraz is the capital of Fars.</string>
+    <string name="answer8">true</string>
+    <string name="question9">Ahvaz and Esfahan are neighbours.</string>
+    <string name="answer9">false</string>
+    <string name="question10">Shomal is the capital of Iran.</string>
+    <string name="answer10">false</string>
 
 </resources>
