@@ -8,19 +8,18 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import ir.homework.hw7problem2.databinding.ActivityMainBinding
-import kotlin.properties.Delegates
-
-val numOfQuestions = 2
-//val questionList = mutableListOf<String>()
-//val answerList = mutableListOf<Boolean>()
-//val userAnswerList = MutableList(numOfQuestions){UserAnswer.NOANSWER}
-//val cheatList = MutableList(numOfQuestions){false}
-//var num = 0     //÷
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding : ActivityMainBinding
     val questionList = mutableListOf<Question>()
     var num = 0
+
+    companion object{
+        const val NUM_OF_QUESTIONS = 10
+        const val NUM = "num"
+        const val CHEATING_ARRAY = "cheatingArray"
+        const val USER_ANSWER_ARRAY = "UserAnswerArray"
+    }
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,10 +27,39 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        setData()
+        handleConfigChange(savedInstanceState)
         initViews()
-
         onClickListeners()
+    }
+
+    private fun MainActivity.handleConfigChange(savedInstanceState: Bundle?) {
+        if (savedInstanceState != null) {
+            with(savedInstanceState) {
+                num = getInt(NUM)
+                val cheatingArray = getBooleanArray(CHEATING_ARRAY)
+                questionList.forEachIndexed { i, question ->
+                    question.hasCheated =
+                        cheatingArray?.get(i) ?: false
+                }
+                val userAnswerArray = getParcelableArray(USER_ANSWER_ARRAY)
+                questionList.forEachIndexed { i, question ->
+                    question.userAnswer =
+                        (userAnswerArray?.get(i) as UserAnswer)
+                }
+            }
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.run{
+            putInt(NUM, num)
+            val cheatingArray = questionList.map{it.hasCheated}.toBooleanArray()
+            putBooleanArray(CHEATING_ARRAY ,cheatingArray)
+            var userAnswerArray = questionList.map{it.userAnswer}.toTypedArray()
+            putParcelableArray(USER_ANSWER_ARRAY, userAnswerArray)
+        }
+        super.onSaveInstanceState(outState)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -77,32 +105,22 @@ class MainActivity : AppCompatActivity() {
             if (hasCheated == true) questionList[num].hasCheated = true
         }
     }
-    fun setQuestions(){
+    private fun setData(){
         questionList.add(Question(getString(R.string.question1),(getString(R.string.answer1)).toBoolean()))
         questionList.add(Question(getString(R.string.question2),getString(R.string.answer2).toBoolean()))
-//        questionList.add(getString(R.string.question3))
-//        answerList.add(stringToBoolean(getString(R.string.answer3)))
-//        questionList.add(getString(R.string.question4))
-//        answerList.add(stringToBoolean(getString(R.string.answer4)))
-//        questionList.add(getString(R.string.question5))
-//        answerList.add(stringToBoolean(getString(R.string.answer5)))
-//        questionList.add(getString(R.string.question6))
-//        answerList.add(stringToBoolean(getString(R.string.answer6)))
-//        questionList.add(getString(R.string.question7))
-//        answerList.add(stringToBoolean(getString(R.string.answer7)))
-//        questionList.add(getString(R.string.question8))
-//        answerList.add(stringToBoolean(getString(R.string.answer8)))
-//        questionList.add(getString(R.string.question9))
-//        answerList.add(stringToBoolean(getString(R.string.answer9)))
-//        questionList.add(getString(R.string.question10))
-//        answerList.add(stringToBoolean(getString(R.string.answer10)))
+        questionList.add(Question(getString(R.string.question3),getString(R.string.answer3).toBoolean()))
+        questionList.add(Question(getString(R.string.question4),getString(R.string.answer4).toBoolean()))
+        questionList.add(Question(getString(R.string.question5),getString(R.string.answer5).toBoolean()))
+        questionList.add(Question(getString(R.string.question6),getString(R.string.answer6).toBoolean()))
+        questionList.add(Question(getString(R.string.question7),getString(R.string.answer7).toBoolean()))
+        questionList.add(Question(getString(R.string.question8),getString(R.string.answer8).toBoolean()))
+        questionList.add(Question(getString(R.string.question9),getString(R.string.answer9).toBoolean()))
+        questionList.add(Question(getString(R.string.question10),getString(R.string.answer10).toBoolean()))
     }
-    fun stringToBoolean(str: String): Boolean{
-        return str == "true"
-    }
+
     @RequiresApi(Build.VERSION_CODES.M)
     fun initViews(){
-        setQuestions()
+        //setQuestions()
         changePage()
     }
     fun messageAnswer(boolean: Boolean){
@@ -116,13 +134,13 @@ class MainActivity : AppCompatActivity() {
     fun changePage() {
         binding.tvQuestion.text = questionList[num].question
         binding.btnPrev.isEnabled = num != 0
-        binding.btnNext.isEnabled = num != (numOfQuestions - 1)
+        binding.btnNext.isEnabled = num != (NUM_OF_QUESTIONS - 1)
         binding.btnFalse.isEnabled = questionList[num].userAnswer == UserAnswer.NO_ANSWER
         binding.btnTrue.isEnabled = questionList[num].userAnswer == UserAnswer.NO_ANSWER
         binding.btnCheat.isEnabled = questionList[num].userAnswer == UserAnswer.NO_ANSWER
         if (num != 0)   binding.btnPrev.setBackgroundColor(getColor(R.color.green_A100))
         else    binding.btnPrev.setBackgroundColor(getColor(R.color.green_dark_A100))
-        if (num != numOfQuestions - 1)  binding.btnNext.setBackgroundColor(getColor(R.color.green_A100))
+        if (num != NUM_OF_QUESTIONS - 1)  binding.btnNext.setBackgroundColor(getColor(R.color.green_A100))
         else    binding.btnNext.setBackgroundColor(getColor(R.color.green_dark_A100))
         if (questionList[num].userAnswer == UserAnswer.NO_ANSWER) {
             binding.btnFalse.setBackgroundColor(getColor(R.color.blue_A100))
