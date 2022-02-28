@@ -22,6 +22,7 @@ class CheatActivity : AppCompatActivity() {
         setContentView(binding.root)
         setTitle("GeoQuiz")
         val answer = intent.getBooleanExtra("answer", false)
+
         binding.btnShowAnswer.setOnClickListener{
             binding.tvCheatAnswer.text = answer.toString()
             binding.btnShowAnswer.setBackgroundColor(getColor(R.color.green_dark_A100))

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">hw7problem2</string>
+    <string name="app_name">GeoQuiz</string>
     <string name="question1">Birjand is the capital of North Khorasan.</string>
     <string name="answer1">false</string>
     <string name="question2">Tehran is the capital of Iran.</string>
